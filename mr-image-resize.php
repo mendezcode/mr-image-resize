@@ -19,8 +19,8 @@
   *  @author Matthew Ruddy (http://rivaslider.com)
   */
 
-if ( isset( $wp_version ) && version_compare( $wp_version, '3.5', 'ge' ) >= 0 ) {
-  
+if ( isset( $wp_version ) && version_compare( $wp_version, '3.5' ) >= 0 ) {
+
   ////////////////////////// WP 3.5 and above
 
   function mr_image_resize( $url, $width = null, $height = null, $crop = true, $align = false, $retina = false ) {
@@ -132,7 +132,7 @@ if ( isset( $wp_version ) && version_compare( $wp_version, '3.5', 'ge' ) >= 0 ) 
 
     // Get common vars
     $args = func_get_args();
-    $common = mr_common_info();
+    $common = mr_common_info($args);
 
     // Unpack vars if got an array...
     if (is_array($common)) extract($common); 
