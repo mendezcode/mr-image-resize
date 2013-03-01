@@ -43,7 +43,7 @@ if ( isset( $wp_version ) && version_compare( $wp_version, '3.5', 'ge' ) >= 0 ) 
       $query = $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE guid='%s'", $url );
       $get_attachment = $wpdb->get_results( $query );
 
-      // Load Wordpress Image Editor
+      // Load WordPress Image Editor
       $editor = wp_get_image_editor( $file_path );
       if ( is_wp_error( $editor ) ) return $url;
       
@@ -381,7 +381,7 @@ function mr_common_info($args) { global $der;
 
 }
 
-// Deletes the resized images when the original image is deleted from the Wordpress Media Library.
+// Deletes the resized images when the original image is deleted from the WordPress Media Library.
 add_action( 'delete_attachment', 'mr_delete_resized_images' );
 function mr_delete_resized_images( $post_id ) {
 
@@ -394,7 +394,7 @@ function mr_delete_resized_images( $post_id ) {
   $pathinfo = pathinfo( $metadata['file'] );
   $resized_images = $metadata['image_meta']['resized_images'];
 
-  // Get Wordpress uploads directory (and bail if it doesn't exist)
+  // Get WordPress uploads directory (and bail if it doesn't exist)
   $wp_upload_dir = wp_upload_dir();
   $upload_dir = $wp_upload_dir['basedir'];
   if ( !is_dir( $upload_dir ) ) return;
