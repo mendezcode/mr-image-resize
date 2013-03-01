@@ -3,7 +3,7 @@
 
 Resizes an image and returns the resized URL. Uses native WordPress functionality.
 
-The first function (3.5+) supports GD Library and ImageMagick. WordPress will pick whichever is most appropriate.
+The first function (3.5+) supports the GD Library and ImageMagick. WordPress will pick whichever is most appropriate.
 The second function (3.4.x and lower) only supports the GD Library. If none of the supported libraries are available, 
 the function will return the original image.
 
