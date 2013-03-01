@@ -1,0 +1,56 @@
+
+# mr-image-resize
+
+Resizes an image and returns the resized URL. Uses native WordPress functionality.
+
+The first function (3.5+) supports GD Library and ImageMagick. WordPress will pick whichever is most appropriate.
+The second function (3.4.x and lower) only supports the GD Library. If none of the supported libraries are available, 
+the function will return the original image.
+
+Images are saved to the WordPress uploads directory, just like images uploaded through the Media Library. The generated 
+thumbnails are automatically deleted when removing the image from the Media Library.
+
+Positional Cropping is supported using timthumb-compatible parameters. Allows you to control how the image is cropped. 
+More info [here](http://www.binarymoon.co.uk/2010/08/timthumb-part-4-moving-crop-location/).
+
+Based on [resize.php](https://github.com/MatthewRuddy/Wordpress-Timthumb-alternative) by Matthew Ruddy (GPLv2 Licensed, 
+Copyright (c) 2012, 2013)
+
+
+## Usage
+
+The function accepts the following parameters:
+
+- `$url` _image URL to process_
+- `$width` _output Width_
+- `$height` _output Height_
+- `$crop`  _enables Cropping (true by default)_
+- `$align` _positional Cropping Parameter_
+- `$retina` _use double pixel ratio (true by default)_
+
+If either **$width** or **$height** is not specified, its value will be calculated proportionally.
+
+
+## Positional Cropping
+
+The **$align** parameter accepts the following arguments:
+
+- `c` _position in the center (default)_
+- `t` _align top_
+- `tr` _align top right_
+- `tl` _align top left_
+- `b` _align bottom_
+- `br` _align bottom right_
+- `bl` _align bottom left_
+- `l` _align left_
+- `r` _align right_
+
+
+## Skip Processing
+
+If an image has the `nocrop` query string parameter, processing will be ignored, returning the original URL.
+
+
+## License
+
+GPLv2, See LICENSE for details.
