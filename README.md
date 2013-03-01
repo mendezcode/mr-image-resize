@@ -21,10 +21,10 @@ Based on [resize.php](https://github.com/MatthewRuddy/Wordpress-Timthumb-alterna
 The function accepts the following parameters:
 
 - `$url` _image URL to process_
-- `$width` _output Width_
-- `$height` _output Height_
-- `$crop`  _enables Cropping (true by default)_
-- `$align` _positional Cropping Parameter_
+- `$width` _output width_
+- `$height` _output height_
+- `$crop`  _enables cropping (true by default)_
+- `$align` _positional cropping parameter_
 - `$retina` _use double pixel ratio (true by default)_
 
 If either **$width** or **$height** is not specified, its value will be calculated proportionally.
