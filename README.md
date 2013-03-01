@@ -10,11 +10,10 @@ the function will return the original image.
 Images are saved to the WordPress uploads directory, just like images uploaded through the Media Library. The generated 
 thumbnails are automatically deleted when removing the image from the Media Library.
 
-Positional Cropping is supported using timthumb-compatible parameters. Allows you to control how the image is cropped. 
-More info [here](http://www.binarymoon.co.uk/2010/08/timthumb-part-4-moving-crop-location/).
+Positional Cropping is supported using timthumb-compatible [parameters](http://www.binarymoon.co.uk/2010/08/timthumb-part-4-moving-crop-location/).
+Allows you to control how the image is cropped. 
 
-Based on [resize.php](https://github.com/MatthewRuddy/Wordpress-Timthumb-alternative) by Matthew Ruddy (GPLv2 Licensed, 
-Copyright (c) 2012, 2013)
+Based on [resize.php](https://github.com/MatthewRuddy/Wordpress-Timthumb-alternative) by Matthew Ruddy.
 
 
 ## Usage
@@ -53,4 +52,4 @@ If an image has the `nocrop` query string parameter, processing will be ignored,
 
 ## License
 
-GPLv2, See LICENSE for details.
+GPLv2, See [LICENSE](https://github.com/derdesign/mr-image-resize/blob/master/LICENSE) for details.
