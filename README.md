@@ -40,7 +40,8 @@ function theme_thumb($url, $width, $height=0, $align='') {
 
 $thumb = theme\_thumb($image\_url, 800, 600, 'br'); // Crops from bottom right
 
-echo $thumb;```
+echo $thumb;
+```
 
 
 ## Positional Cropping
