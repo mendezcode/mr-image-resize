@@ -35,10 +35,10 @@ If either **$width** or **$height** is not specified, its value will be calculat
 ```php
 // Put this in your functions.php
 function theme_thumb($url, $width, $height=0, $align='') {
-  return mr\_image\_resize($url, $width, $height, true, $align, false);
+  return mr_image_resize($url, $width, $height, true, $align, false);
 }
 
-$thumb = theme\_thumb($image\_url, 800, 600, 'br'); // Crops from bottom right
+$thumb = theme_thumb($image_url, 800, 600, 'br'); // Crops from bottom right
 
 echo $thumb;
 ```
