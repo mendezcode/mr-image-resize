@@ -16,7 +16,7 @@ Allows you to control how the image is cropped.
 Based on [resize.php](https://github.com/MatthewRuddy/Wordpress-Timthumb-alternative) by Matthew Ruddy.
 
 
-## Usage
+## Parameters
 
 The function accepts the following parameters:
 
@@ -28,6 +28,19 @@ The function accepts the following parameters:
 - `$retina` _use double pixel ratio (true by default)_
 
 If either **$width** or **$height** is not specified, its value will be calculated proportionally.
+
+
+## Example Usage
+
+```php
+// Put this in your functions.php
+function theme_thumb($url, $width, $height=0, $align='') {
+  return mr\_image\_resize($url, $width, $height, true, $align, false);
+}
+
+$thumb = theme\_thumb($image\_url, 800, 600, 'br'); // Crops from bottom right
+
+echo $thumb;```
 
 
 ## Positional Cropping
