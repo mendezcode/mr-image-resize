@@ -299,8 +299,8 @@ function mr_common_info($args) { global $der;
   }
 
   // Get the image file path
-  $file_path = parse_url( $url );
-  $file_path = $_SERVER['DOCUMENT_ROOT'] . $file_path['path'];
+  $pathinfo = parse_url( $url );
+  $file_path = ABSPATH . str_replace(dirname($_SERVER['SCRIPT_NAME']) . '/', '', $pathinfo['path']);
 
   if ( is_multisite() ) {
     if (preg_match('/\/blogs.dir\//', $file_path)) {
@@ -313,6 +313,9 @@ function mr_common_info($args) { global $der;
       $file_path = ABSPATH . strstr(str_replace($blog->path . 'files/', "wp-content/blogs.dir/${blog_id}/files/", $file_path ), 'wp-content');
     }
   }
+  
+  // Remove any double slashes
+  $file_path = preg_replace('/\/+/', '/', $file_path);
   
   // Don't process a file that doesn't exist
   if ( !file_exists($file_path) ) {
