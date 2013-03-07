@@ -300,18 +300,12 @@ function mr_common_info($args) { global $der;
 
   // Get the image file path
   $pathinfo = parse_url( $url );
-  $file_path = ABSPATH . str_replace(dirname($_SERVER['SCRIPT_NAME']) . '/', '', strstr($pathinfo['path'], '/wp-content'));
+  $uploads_dir = is_multisite() ? '/files/' : '/wp-content/';
+  $file_path = ABSPATH . str_replace(dirname($_SERVER['SCRIPT_NAME']) . '/', '', strstr($pathinfo['path'], $uploads_dir));
 
-  if ( is_multisite() ) {
-    if (preg_match('/\/blogs.dir\//', $file_path)) {
-      // Adjust real path on multisite
-      $file_path = ABSPATH . strstr($file_path, 'wp-content');
-    } else {
-      // Adjust normal path on multisite
-      global $blog_id;
-      $blog = get_blog_details( $blog_id );
-      $file_path = ABSPATH . strstr(str_replace($blog->path . 'files/', "wp-content/blogs.dir/${blog_id}/files/", $file_path ), 'wp-content');
-    }
+  // Adjust path on multisite
+  if ( is_multisite() ) { global $blog_id;
+    $file_path = str_replace($uploads_dir, "/wp-content/blogs.dir/${blog_id}/files/", $file_path);
   }
   
   // Remove any double slashes
