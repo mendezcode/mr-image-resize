@@ -300,7 +300,7 @@ function mr_common_info($args) { global $der;
 
   // Get the image file path
   $pathinfo = parse_url( $url );
-  $file_path = ABSPATH . str_replace(dirname($_SERVER['SCRIPT_NAME']) . '/', '', $pathinfo['path']);
+  $file_path = ABSPATH . str_replace(dirname($_SERVER['SCRIPT_NAME']) . '/', '', strstr($pathinfo['path'], '/wp-content'));
 
   if ( is_multisite() ) {
     if (preg_match('/\/blogs.dir\//', $file_path)) {
