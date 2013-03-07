@@ -30,13 +30,13 @@ if ( isset( $wp_version ) && version_compare( $wp_version, '3.5' ) >= 0 ) {
     // Get common vars
     $args = func_get_args();
     $common = mr_common_info($args);
-    
+
     // Unpack vars if got an array...
     if (is_array($common)) extract($common); 
-    
+
     // ... Otherwise, return error, null or image
     else return $common;
-    
+
     if ( !file_exists( $dest_file_name ) ) {
 
       // We only want to resize Media Library images, so we can be sure they get deleted correctly when appropriate.
@@ -46,9 +46,9 @@ if ( isset( $wp_version ) && version_compare( $wp_version, '3.5' ) >= 0 ) {
       // Load WordPress Image Editor
       $editor = wp_get_image_editor( $file_path );
       if ( is_wp_error( $editor ) ) return $url;
-      
+
       if ( $crop ) {
-        
+
         $src_x = $src_y = 0;
         $src_w = $orig_width;
         $src_h = $orig_height;
@@ -113,14 +113,14 @@ if ( isset( $wp_version ) && version_compare( $wp_version, '3.5' ) >= 0 ) {
       $resized_url = str_replace( basename( $url ), basename( $dest_file_name ), $url );
 
     }
-    
+
     // Return resized url
     return $resized_url;
 
   }
 
 } else {
-  
+
   ////////////////////////// WP 3.4 and below
 
   function mr_image_resize( $url, $width = null, $height = null, $crop = true, $align = false, $retina = false ) {
@@ -136,10 +136,10 @@ if ( isset( $wp_version ) && version_compare( $wp_version, '3.5' ) >= 0 ) {
 
     // Unpack vars if got an array...
     if (is_array($common)) extract($common); 
-    
+
     // ... Otherwise, return error, null or image
     else return $common; 
-    
+
     // No need to resize & create a new image if it already exists!
     if ( !file_exists( $dest_file_name ) ) {
 
@@ -284,15 +284,15 @@ if ( isset( $wp_version ) && version_compare( $wp_version, '3.5' ) >= 0 ) {
 
 // Returns common information shared by processing functions
 function mr_common_info($args) { global $der;
-  
+
   // Unpack arguments
   list($url, $width, $height, $crop, $align, $retina) = $args;
-  
+
   // Return null if url empty
   if ( empty( $url ) ) {
     return is_user_logged_in() ? "image_not_specified" : null;
   }
-  
+
   // Return if nocrop is set on query string
   if (preg_match('/(\?|&)nocrop/', $url)) {
     return $url;
@@ -307,35 +307,35 @@ function mr_common_info($args) { global $der;
   if ( is_multisite() ) { global $blog_id;
     $file_path = str_replace($uploads_dir, "/wp-content/blogs.dir/${blog_id}/files/", $file_path);
   }
-  
+
   // Remove any double slashes
   $file_path = preg_replace('/\/+/', '/', $file_path);
-  
+
   // Don't process a file that doesn't exist
   if ( !file_exists($file_path) ) {
     return null; // Degrade gracefully
   }
-  
+
   // Get original image size
   $size = @getimagesize($file_path);
-  
+
   // If no size data obtained, return error or null
   if (!$size) {
     return is_user_logged_in() ? "getimagesize_error_common" : null;
   }
-  
+
   // Set original width and height
   list($orig_width, $orig_height, $orig_type) = $size;
 
   // Generate width or height if not provided
-	if ($width && !$height) {
-		$height = floor ($orig_height * ($width / $orig_width));
-	} else if ($height && !$width) {
-		$width = floor ($orig_width * ($height / $orig_height));
-	} else if (!$width && !$height) {
-	  return $url; // Return original url if no width/height provided
-	}
-	
+  if ($width && !$height) {
+    $height = floor ($orig_height * ($width / $orig_width));
+  } else if ($height && !$width) {
+    $width = floor ($orig_width * ($height / $orig_height));
+  } else if (!$width && !$height) {
+    return $url; // Return original url if no width/height provided
+  }
+
   // Allow for different retina sizes
   $retina = $retina ? ( $retina === true ? 2 : $retina ) : 1;
 
@@ -354,13 +354,13 @@ function mr_common_info($args) { global $der;
 
   // Suffix applied to filename
   $suffix = "{$dest_width}x{$dest_height}";
-  
+
   // Set align info on file
   if ($align) $suffix .= "_$align";
 
   // Get the destination file name
   $dest_file_name = "{$dir}/{$name}-{$suffix}.{$ext}";
-  
+
   // Return info
   return array(
     'dir' => $dir,
@@ -385,7 +385,7 @@ function mr_delete_resized_images( $post_id ) {
   // Get attachment image metadata
   $metadata = wp_get_attachment_metadata( $post_id );
   if ( !$metadata ) return;
-    
+
   // Do some bailing if we cannot continue
   if ( !isset( $metadata['file'] ) || !isset( $metadata['image_meta']['resized_images'] ) )  return;
   $pathinfo = pathinfo( $metadata['file'] );
