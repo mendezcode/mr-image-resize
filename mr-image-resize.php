@@ -45,7 +45,12 @@ if ( isset( $wp_version ) && version_compare( $wp_version, '3.5' ) >= 0 ) {
 
       // Load WordPress Image Editor
       $editor = wp_get_image_editor( $file_path );
-      if ( is_wp_error( $editor ) ) return $url;
+      
+      // Print possible wp error
+      if ( is_wp_error($editor) ) {
+        if (is_user_logged_in()) print_r($editor);
+        return null;
+      }
 
       if ( $crop ) {
 
@@ -94,7 +99,7 @@ if ( isset( $wp_version ) && version_compare( $wp_version, '3.5' ) >= 0 ) {
       $saved = $editor->save( $dest_file_name );
       
       // Print possible out of memory error
-      if (is_wp_error($saved)) {
+      if ( is_wp_error($saved) ) {
         @unlink($dest_file_name);
         if (is_user_logged_in()) print_r($saved);
         return null;
