@@ -23,7 +23,7 @@ if ( isset( $wp_version ) && version_compare( $wp_version, '3.5' ) >= 0 ) {
 
   ////////////////////////// WP 3.5 and above
 
-  function mr_image_resize( $url, $width = null, $height = null, $crop = true, $align = false, $retina = false ) {
+  function mr_image_resize( $url, $width = null, $height = null, $crop = true, $align = '', $retina = false ) {
 
     global $wpdb;
 
@@ -135,7 +135,7 @@ if ( isset( $wp_version ) && version_compare( $wp_version, '3.5' ) >= 0 ) {
 
   ////////////////////////// WP 3.4 and below
 
-  function mr_image_resize( $url, $width = null, $height = null, $crop = true, $align = false, $retina = false ) {
+  function mr_image_resize( $url, $width = null, $height = null, $crop = true, $align = '', $retina = false ) {
 
     global $wpdb;
 
