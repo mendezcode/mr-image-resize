@@ -92,6 +92,13 @@ if ( isset( $wp_version ) && version_compare( $wp_version, '3.5' ) >= 0 ) {
 
       // Save image
       $saved = $editor->save( $dest_file_name );
+      
+      // Print possible out of memory error
+      if (is_wp_error($saved)) {
+        @unlink($dest_file_name);
+        if (is_user_logged_in()) print_r($saved);
+        return null;
+      }
 
       // Add the resized dimensions and alignment to original image metadata, so the images
       // can be deleted when the original image is delete from the Media Library.
