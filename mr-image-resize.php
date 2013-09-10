@@ -89,11 +89,16 @@ if ( isset( $wp_version ) && version_compare( $wp_version, '3.5' ) >= 0 ) {
             $src_x = $orig_width - $src_w;
           }
         }
+        
+        // Crop image
+        $editor->crop( $src_x, $src_y, $src_w, $src_h, $dest_width, $dest_height );
 
+      } else {
+       
+        // Just resize image
+	$editor->resize( $dest_width, $dest_height );
+       
       }
-
-      // Crop image
-      $editor->crop( $src_x, $src_y, $src_w, $src_h, $dest_width, $dest_height );
 
       // Save image
       $saved = $editor->save( $dest_file_name );
