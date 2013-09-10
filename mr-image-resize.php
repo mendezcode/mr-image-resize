@@ -20,9 +20,9 @@
   *  @author Matthew Ruddy (http://rivaslider.com)
   */
 
-add_action( 'delete_attachment', 'mr_delete_resized_images' );
+add_action('delete_attachment', 'mr_delete_resized_images');
 
-function mr_image_resize( $url, $width = null, $height = null, $crop = true, $align = 'c', $retina = false ) {
+function mr_image_resize($url, $width=null, $height=null, $crop=true, $align='c', $retina=false) {
 
   global $wpdb;
 
@@ -36,22 +36,22 @@ function mr_image_resize( $url, $width = null, $height = null, $crop = true, $al
   // ... Otherwise, return error, null or image
   else return $common;
 
-  if ( !file_exists( $dest_file_name ) ) {
+  if (!file_exists($dest_file_name)) {
 
     // We only want to resize Media Library images, so we can be sure they get deleted correctly when appropriate.
-    $query = $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE guid='%s'", $url );
-    $get_attachment = $wpdb->get_results( $query );
+    $query = $wpdb->prepare("SELECT * FROM $wpdb->posts WHERE guid='%s'", $url);
+    $get_attachment = $wpdb->get_results($query);
 
     // Load WordPress Image Editor
-    $editor = wp_get_image_editor( $file_path );
+    $editor = wp_get_image_editor($file_path);
     
     // Print possible wp error
-    if ( is_wp_error($editor) ) {
+    if (is_wp_error($editor)) {
       if (is_user_logged_in()) print_r($editor);
       return null;
     }
 
-    if ( $crop ) {
+    if ($crop) {
 
       $src_x = $src_y = 0;
       $src_w = $orig_width;
@@ -74,7 +74,7 @@ function mr_image_resize( $url, $width = null, $height = null, $crop = true, $al
       }
 
       // Positional cropping. Uses code from timthumb.php under the GPL
-      if ( $align && $align != 'c' ) {
+      if ($align && $align != 'c') {
         if (strpos ($align, 't') !== false) {
           $src_y = 0;
         }
@@ -90,20 +90,20 @@ function mr_image_resize( $url, $width = null, $height = null, $crop = true, $al
       }
       
       // Crop image
-      $editor->crop( $src_x, $src_y, $src_w, $src_h, $dest_width, $dest_height );
+      $editor->crop($src_x, $src_y, $src_w, $src_h, $dest_width, $dest_height);
 
     } else {
      
       // Just resize image
-      $editor->resize( $dest_width, $dest_height );
+      $editor->resize($dest_width, $dest_height);
      
     }
 
     // Save image
-    $saved = $editor->save( $dest_file_name );
+    $saved = $editor->save($dest_file_name);
     
     // Print possible out of memory error
-    if ( is_wp_error($saved) ) {
+    if (is_wp_error($saved)) {
       @unlink($dest_file_name);
       if (is_user_logged_in()) print_r($saved);
       return null;
@@ -111,23 +111,23 @@ function mr_image_resize( $url, $width = null, $height = null, $crop = true, $al
 
     // Add the resized dimensions and alignment to original image metadata, so the images
     // can be deleted when the original image is delete from the Media Library.
-    if ( $get_attachment ) {
-      $metadata = wp_get_attachment_metadata( $get_attachment[0]->ID );
-      if ( isset( $metadata['image_meta'] ) ) {
-        $md = $saved['width'] .'x'. $saved['height'];
+    if ($get_attachment) {
+      $metadata = wp_get_attachment_metadata($get_attachment[0]->ID);
+      if (isset($metadata['image_meta'])) {
+        $md = $saved['width'] . 'x' . $saved['height'];
         if ($crop) $md .= ($align) ? "_${align}" : "_c";
         $metadata['image_meta']['resized_images'][] = $md;
-        wp_update_attachment_metadata( $get_attachment[0]->ID, $metadata );
+        wp_update_attachment_metadata($get_attachment[0]->ID, $metadata);
       }
     }
 
     // Resized image url
-    $resized_url = str_replace( basename( $url ), basename( $saved['path'] ), $url );
+    $resized_url = str_replace(basename($url), basename($saved['path']), $url);
 
   } else {
 
     // Resized image url
-    $resized_url = str_replace( basename( $url ), basename( $dest_file_name ), $url );
+    $resized_url = str_replace(basename($url), basename($dest_file_name), $url);
 
   }
 
@@ -144,7 +144,7 @@ function mr_common_info($args) {
   list($url, $width, $height, $crop, $align, $retina) = $args;
   
   // Return null if url empty
-  if ( empty( $url ) ) {
+  if (empty($url)) {
     return is_user_logged_in() ? "image_not_specified" : null;
   }
 
@@ -164,7 +164,7 @@ function mr_common_info($args) {
   }
   
   // Don't process a file that doesn't exist
-  if ( !file_exists($file_path) ) {
+  if (!file_exists($file_path)) {
     return null; // Degrade gracefully
   }
   
@@ -189,17 +189,17 @@ function mr_common_info($args) {
   }
 
   // Allow for different retina sizes
-  $retina = $retina ? ( $retina === true ? 2 : $retina ) : 1;
+  $retina = $retina ? ($retina === true ? 2 : $retina) : 1;
 
   // Destination width and height variables
   $dest_width = $width * $retina;
   $dest_height = $height * $retina;
 
   // Some additional info about the image
-  $info = pathinfo( $file_path );
+  $info = pathinfo($file_path);
   $dir = $info['dirname'];
   $ext = $info['extension'];
-  $name = wp_basename( $file_path, ".$ext" );
+  $name = wp_basename($file_path, ".$ext");
 
   // Suffix applied to filename
   $suffix = "${dest_width}x${dest_height}";
@@ -231,29 +231,29 @@ function mr_common_info($args) {
 
 // Deletes the resized images when the original image is deleted from the WordPress Media Library.
 
-function mr_delete_resized_images( $post_id ) {
+function mr_delete_resized_images($post_id) {
 
   // Get attachment image metadata
-  $metadata = wp_get_attachment_metadata( $post_id );
+  $metadata = wp_get_attachment_metadata($post_id);
   
   // Return if no metadata is found
-  if ( !$metadata ) return;
+  if (!$metadata) return;
 
   // Return if we don't have the proper metadata
-  if ( !isset( $metadata['file'] ) || !isset( $metadata['image_meta']['resized_images'] ) )  return;
+  if (!isset($metadata['file']) || !isset($metadata['image_meta']['resized_images'])) return;
   
   $wp_upload_dir = wp_upload_dir();
   $pathinfo = pathinfo($metadata['file']);
   $resized_images = $metadata['image_meta']['resized_images'];
   
   // Delete the resized images
-  foreach ( $resized_images as $dims ) {
+  foreach ($resized_images as $dims) {
 
     // Get the resized images filename
     $file = $wp_upload_dir['basedir'] . '/' . $pathinfo['dirname'] . '/' . $pathinfo['filename'] . '-' . $dims . '.' . $pathinfo['extension'];
 
     // Delete the resized image
-    @unlink( $file );
+    @unlink($file);
 
   }
 
