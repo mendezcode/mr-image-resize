@@ -96,7 +96,7 @@ if ( isset( $wp_version ) && version_compare( $wp_version, '3.5' ) >= 0 ) {
       } else {
        
         // Just resize image
-	$editor->resize( $dest_width, $dest_height );
+        $editor->resize( $dest_width, $dest_height );
        
       }
 
@@ -300,7 +300,8 @@ if ( isset( $wp_version ) && version_compare( $wp_version, '3.5' ) >= 0 ) {
 }
 
 // Returns common information shared by processing functions
-function mr_common_info($args) { global $der;
+
+function mr_common_info($args) {
 
   // Unpack arguments
   list($url, $width, $height, $crop, $align, $retina) = $args;
@@ -396,7 +397,9 @@ function mr_common_info($args) { global $der;
 }
 
 // Deletes the resized images when the original image is deleted from the WordPress Media Library.
+
 add_action( 'delete_attachment', 'mr_delete_resized_images' );
+
 function mr_delete_resized_images( $post_id ) {
 
   // Get attachment image metadata
