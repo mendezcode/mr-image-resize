@@ -248,7 +248,7 @@ if ( isset( $wp_version ) && version_compare( $wp_version, '3.5' ) >= 0 ) {
         default:
           // All other formats are converted to jpg
           if ( $ext != 'jpg' && $ext != 'jpeg' ) {
-            $dest_file_name = "{$dir}/{$name}-{$suffix}.jpg";
+            $dest_file_name = "${dir}/${name}-${suffix}.jpg";
           }
 
           // Return if unable to write JPG
@@ -361,9 +361,6 @@ function mr_common_info($args) {
   $dest_width = $width * $retina;
   $dest_height = $height * $retina;
 
-  // File name suffix (appended to original file name)
-  $suffix = "{$dest_width}x{$dest_height}";
-
   // Some additional info about the image
   $info = pathinfo( $file_path );
   $dir = $info['dirname'];
@@ -371,14 +368,16 @@ function mr_common_info($args) {
   $name = wp_basename( $file_path, ".$ext" );
 
   // Suffix applied to filename
-  $suffix = "{$dest_width}x{$dest_height}";
+  $suffix = "${dest_width}x${dest_height}";
 
   // Set align info on file
-  if ($align) $suffix .= "_$align";
+  if ($crop) {
+    $suffix .= ($align) ? "_${align}" : "_c";
+  }
 
   // Get the destination file name
-  $dest_file_name = "{$dir}/{$name}-{$suffix}.{$ext}";
-
+  $dest_file_name = "${dir}/${name}-${suffix}.${ext}";
+  
   // Return info
   return array(
     'dir' => $dir,
