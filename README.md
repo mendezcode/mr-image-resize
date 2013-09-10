@@ -3,15 +3,15 @@
 
 Resizes an image and returns the resized URL. Uses native WordPress functionality.
 
-The first function (3.5+) supports the GD Library and ImageMagick. WordPress will pick whichever is most appropriate.
-The second function (3.4.x and lower) only supports the GD Library. If none of the supported libraries are available, 
-the function will return the original image.
+The function supports GD Library and ImageMagick. WordPress will pick whichever is most appropriate.
+If none of the supported libraries are available, the function will return the original image url.
 
-Images are saved to the WordPress uploads directory, just like images uploaded through the Media Library. The generated 
-thumbnails are automatically deleted when removing the image from the Media Library.
+Images are saved to the WordPress uploads directory, just like images uploaded through the Media Library.
 
-Positional Cropping is supported using timthumb-compatible [parameters](http://www.binarymoon.co.uk/2010/08/timthumb-part-4-moving-crop-location/).
-Allows you to control how the image is cropped. 
+Supports WordPress 3.5 and above.
+
+Positional Cropping is supported using timthumb-compatible [parameters](http://www.binarymoon.co.uk/2010/08/timthumb-part-4-moving-crop-location/), which
+allow you to control how the image is cropped.
 
 Based on [resize.php](https://github.com/MatthewRuddy/Wordpress-Timthumb-alternative) by Matthew Ruddy.
 
@@ -24,7 +24,7 @@ The function accepts the following parameters:
 - `$width` _output width_
 - `$height` _output height_
 - `$crop`  _enables cropping (true by default)_
-- `$align` _positional cropping parameter_
+- `$align` _positional cropping parameter (defaults to center)_
 - `$retina` _use double pixel ratio (true by default)_
 
 If either **$width** or **$height** is not specified, its value will be calculated proportionally.
