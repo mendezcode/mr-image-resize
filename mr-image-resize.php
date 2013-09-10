@@ -96,7 +96,7 @@ if ( isset( $wp_version ) && version_compare( $wp_version, '3.5' ) >= 0 ) {
       } else {
        
         // Just resize image
-				    $editor->resize( $dest_width, $dest_height );
+	$editor->resize( $dest_width, $dest_height );
        
       }
 
