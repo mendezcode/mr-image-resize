@@ -375,6 +375,9 @@ function mr_common_info($args) {
 
   // Set align info on file
   if ($align) $suffix .= "_$align";
+  
+  // Set crop info on file
+  if ($crop) $suffix .= '_crop';
 
   // Get the destination file name
   $dest_file_name = "{$dir}/{$name}-{$suffix}.{$ext}";
