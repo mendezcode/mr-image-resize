@@ -104,8 +104,10 @@ function mr_image_resize($url, $width=null, $height=null, $crop=true, $align='c'
     
     // Print possible out of memory error
     if (is_wp_error($saved)) {
-      @unlink($dest_file_name);
-      if (is_user_logged_in()) print_r($saved);
+      if (is_user_logged_in()) {
+        print_r($saved);
+        unlink($dest_file_name);
+      }
       return null;
     }
 
@@ -160,7 +162,10 @@ function mr_common_info($args) {
   if (preg_match('/\/[0-9]{4}\/[0-9]{2}\/.+$/', $urlinfo['path'], $matches)) {
     $file_path = $wp_upload_dir['basedir'] . $matches[0];
   } else {
-    return $url;
+    $pathinfo = parse_url( $url );
+    $uploads_dir = is_multisite() ? '/files/' : '/wp-content/';
+    $file_path = ABSPATH . str_replace(dirname($_SERVER['SCRIPT_NAME']) . '/', '', strstr($pathinfo['path'], $uploads_dir));
+    $file_path = preg_replace('/(\/\/)/', '/', $file_path);
   }
   
   // Don't process a file that doesn't exist
@@ -169,7 +174,7 @@ function mr_common_info($args) {
   }
   
   // Get original image size
-  $size = @getimagesize($file_path);
+  $size = is_user_logged_in() ? getimagesize($file_path) : @getimagesize($file_path);
 
   // If no size data obtained, return error or null
   if (!$size) {
@@ -253,7 +258,7 @@ function mr_delete_resized_images($post_id) {
     $file = $wp_upload_dir['basedir'] . '/' . $pathinfo['dirname'] . '/' . $pathinfo['filename'] . '-' . $dims . '.' . $pathinfo['extension'];
 
     // Delete the resized image
-    @unlink($file);
+    is_user_logged_in() ? unlink($file) : @unlink($file);
 
   }
 
