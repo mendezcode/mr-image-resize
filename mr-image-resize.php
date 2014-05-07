@@ -257,8 +257,8 @@ function mr_delete_resized_images($post_id) {
     // Get the resized images filename
     $file = $wp_upload_dir['basedir'] . '/' . $pathinfo['dirname'] . '/' . $pathinfo['filename'] . '-' . $dims . '.' . $pathinfo['extension'];
 
-    // Delete the resized image
-    is_user_logged_in() ? unlink($file) : @unlink($file);
+    // Delete the resized image (if it has not yet been deleted)
+    @unlink($file);
 
   }
 
